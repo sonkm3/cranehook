@@ -7,7 +7,7 @@ from unittest.mock import patch
 from webtest import TestApp
 
 import cranehook
-import pull_request_task
+from src.tasks import submit_pull_request_merged_task
 
 import settings
 
@@ -24,7 +24,7 @@ def test_cranehook_webhook_ping():
     signature = 'sha256=' + mac.hexdigest()
     headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'ping')]
 
-    response = app.post_json('/cranehook/github', request_json, headers=headers)
+    response = app.post_json('/', request_json, headers=headers)
     assert response.status_code == 200
     assert 'pong' in response
 
@@ -39,12 +39,12 @@ def test_cranehook_webhook_push():
     signature = 'sha256=' + mac.hexdigest()
     headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'push')]
 
-    response = app.post_json('/cranehook/github', request_json, headers=headers)
+    response = app.post_json('/', request_json, headers=headers)
     assert response.status_code == 200
     assert 'pong' not in response
 
 
-@patch('task.submit_pull_request_merged_task')
+@patch('src.tasks.submit_pull_request_merged_task')
 def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
     app = TestApp(cranehook.app)
 
@@ -55,7 +55,7 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
     signature = 'sha256=' + mac.hexdigest()
     headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'pull_request')]
 
-    response = app.post_json('/cranehook/github', request_json, headers=headers)
+    response = app.post_json('/', request_json, headers=headers)
     assert response.status_code == 200
     assert 'pong' not in response
 
@@ -64,4 +64,4 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
 @patch('logging.error')
 @patch('logging.info')
 def test_cranehook_pull_request_merged_task(logging_info, logging_error, subprocess_run):
-    pull_request_task.pull_request_merged_task(None)
+    submit_pull_request_merged_task(None)

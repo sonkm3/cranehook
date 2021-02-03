@@ -3,7 +3,7 @@ import subprocess
 
 import settings
 
-from discord_handler import DiscordHandler
+from .discord_handler import DiscordHandler
 
 logger = logging.getLogger('cranehook')
 logger.setLevel(logging.DEBUG)
