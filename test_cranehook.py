@@ -24,7 +24,7 @@ def test_cranehook_webhook_ping():
     signature = 'sha256=' + mac.hexdigest()
     headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'ping')]
 
-    response = app.post_json('/webhook', request_json, headers=headers)
+    response = app.post_json('/cranehook/github', request_json, headers=headers)
     assert response.status_code == 200
     assert 'pong' in response
 
@@ -39,7 +39,7 @@ def test_cranehook_webhook_push():
     signature = 'sha256=' + mac.hexdigest()
     headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'push')]
 
-    response = app.post_json('/webhook', request_json, headers=headers)
+    response = app.post_json('/cranehook/github', request_json, headers=headers)
     assert response.status_code == 200
     assert 'pong' not in response
 
@@ -55,7 +55,7 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
     signature = 'sha256=' + mac.hexdigest()
     headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'pull_request')]
 
-    response = app.post_json('/webhook', request_json, headers=headers)
+    response = app.post_json('/cranehook/github', request_json, headers=headers)
     assert response.status_code == 200
     assert 'pong' not in response
 

@@ -9,3 +9,5 @@ PULL_REQUEST_MERGED_COMMAND = [
     ['/tmp/', ['make', 'publish']],
     ['/tmp/', ['ls', '-l']],
 ]
+
+PORT = 8080
