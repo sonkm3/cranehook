@@ -18,9 +18,12 @@ command_dict = {
     'pull_request_merged_task': settings.PULL_REQUEST_MERGED_COMMAND
 }
 
-# todo: split into pull_request_merged_task() and task_command_executer()
 def pull_request_merged_task(payload):
-    for cwd, command in command_dict['pull_request_merged_task']:
+    task_command_executer(command_dict['pull_request_merged_task'])
+
+
+def task_command_executer(command_list):
+    for cwd, command in command_list:
         logger.info(' '.join(command))
         _ = subprocess.run(command, cwd=cwd, capture_output=True)
         logger.info(_.returncode)
