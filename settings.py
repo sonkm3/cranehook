@@ -1,6 +1,4 @@
-
-
-WEBHOOK_SECRET = 'secret'
+GITHUB_WEBHOOK_SECRET = 'secret'
 
 DISCORD_WEBHOOK_URL = ''
 

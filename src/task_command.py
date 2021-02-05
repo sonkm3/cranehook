@@ -9,7 +9,8 @@ logger = logging.getLogger('cranehook')
 logger.setLevel(logging.DEBUG)
 discordHandler = DiscordHandler(settings.DISCORD_WEBHOOK_URL, 'cranehook')
 
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter = logging.Formatter(
+    '%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 discordHandler.setFormatter(formatter)
 
 logger.addHandler(discordHandler)
@@ -17,6 +18,7 @@ logger.addHandler(discordHandler)
 command_dict = {
     'pull_request_merged_task': settings.PULL_REQUEST_MERGED_COMMAND
 }
+
 
 def pull_request_merged_task(payload):
     task_command_executer(command_dict['pull_request_merged_task'])

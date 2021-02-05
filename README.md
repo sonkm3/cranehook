@@ -5,8 +5,16 @@ It's designed to use with pelican generated web site and also capable to run oth
 ## Status
 It's in alpha state. We've just start using this program.
 
+Only `ping` and `pullrequest` event are handled. (Even `pullrequest` handling is limited.)
+
+### ping event
+Just response `pong`.
+
+### pullrequest event
+When event is `pullrequest` and its payload have `merged` property as `True`, cranehook runs commands written on `settings.py`.
+
 ## Usage
-At first, do `git clone` to get a copy of cranehook.
+At first, do `git clone git@github.com:sonkm3/cranehook.git` to get a copy of cranehook.
 
 Install required python modules `pip install -r requirements.txt`
 
@@ -16,7 +24,6 @@ Run as web server. `python cranehook.py`
 
 Webhook is waiting on this url. `http://localhost:8080/` (Port can be changed by editing `settings.py`)
 
-Only `ping` and `pullrequest` event are handled. (Even `pullrequest` handling is limited.)
 
 ## Test
 Just run `nosetests`

@@ -11,7 +11,7 @@ from src.tasks import submit_pull_request_merged_task
 
 import settings
 
-WEBHOOK_SECRET = settings.WEBHOOK_SECRET
+GITHUB_WEBHOOK_SECRET = settings.GITHUB_WEBHOOK_SECRET
 
 
 def test_cranehook_webhook_ping():
@@ -19,10 +19,13 @@ def test_cranehook_webhook_ping():
 
     request_json = dict(id=1, value='value')
 
-    mac = hmac.new(WEBHOOK_SECRET.encode(), msg=json.dumps(request_json).encode(), digestmod=sha256)
+    mac = hmac.new(GITHUB_WEBHOOK_SECRET.encode(),
+                   msg=json.dumps(request_json).encode(),
+                   digestmod=sha256)
 
     signature = 'sha256=' + mac.hexdigest()
-    headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'ping')]
+    headers = [('X-Hub-Signature-256', signature),
+               ('HTTP_X_GITHUB_EVENT', 'ping')]
 
     response = app.post_json('/', request_json, headers=headers)
     assert response.status_code == 200
@@ -34,10 +37,13 @@ def test_cranehook_webhook_push():
 
     request_json = dict(id=1, value='value')
 
-    mac = hmac.new(WEBHOOK_SECRET.encode(), msg=json.dumps(request_json).encode(), digestmod=sha256)
+    mac = hmac.new(GITHUB_WEBHOOK_SECRET.encode(),
+                   msg=json.dumps(request_json).encode(),
+                   digestmod=sha256)
 
     signature = 'sha256=' + mac.hexdigest()
-    headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'push')]
+    headers = [('X-Hub-Signature-256', signature),
+               ('HTTP_X_GITHUB_EVENT', 'push')]
 
     response = app.post_json('/', request_json, headers=headers)
     assert response.status_code == 200
@@ -50,10 +56,13 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
 
     request_json = {"action": "closed", "merged": True}
 
-    mac = hmac.new(WEBHOOK_SECRET.encode(), msg=json.dumps(request_json).encode(), digestmod=sha256)
+    mac = hmac.new(GITHUB_WEBHOOK_SECRET.encode(),
+                   msg=json.dumps(request_json).encode(),
+                   digestmod=sha256)
 
     signature = 'sha256=' + mac.hexdigest()
-    headers = [('X-Hub-Signature-256', signature), ('HTTP_X_GITHUB_EVENT', 'pull_request')]
+    headers = [('X-Hub-Signature-256', signature),
+               ('HTTP_X_GITHUB_EVENT', 'pull_request')]
 
     response = app.post_json('/', request_json, headers=headers)
     assert response.status_code == 200
@@ -61,7 +70,7 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
 
 
 @patch('subprocess.run')
-@patch('logging.error')
-@patch('logging.info')
-def test_cranehook_pull_request_merged_task(logging_info, logging_error, subprocess_run):
+@patch('src.discord_handler._call_webhook')
+def test_cranehook_pull_request_merged_task(_call_webhook,
+                                            subprocess_run):
     submit_pull_request_merged_task(None)
