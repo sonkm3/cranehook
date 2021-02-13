@@ -17,8 +17,10 @@ cranehook_app.catchall = False
 logger = logging.getLogger('cranehook')
 logger.setLevel(logging.DEBUG)
 
+
 @cranehook_app.route(path='/', method='POST')
 def index():
+    logger.info(request.headers)
     signature_header = request.get_header('X-Hub-Signature-256')
     if signature_header is None:
         logger.error('signature is not set.')
@@ -43,7 +45,7 @@ def index():
     if event == 'pull_request':
         logger.info(payload["action"])
         logger.info(payload["pull_request"]["merged"])
-    
+
         def check_pull_request_merged(payload):
             return payload["action"] == "closed" \
                    and payload["pull_request"]["merged"]
