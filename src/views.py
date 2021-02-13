@@ -20,7 +20,7 @@ logger.setLevel(logging.DEBUG)
 
 @cranehook_app.route(path='/', method='POST')
 def index():
-    logger.info(request.headers)
+    logger.info(str(request.headers))
     signature_header = request.get_header('X-Hub-Signature-256')
     if signature_header is None:
         logger.error('signature is not set.')
