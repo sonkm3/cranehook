@@ -9,3 +9,4 @@ PULL_REQUEST_MERGED_COMMAND = [
 ]
 
 PORT = 8080
+HOST = 'localhost'

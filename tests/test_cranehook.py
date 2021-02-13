@@ -54,7 +54,7 @@ def test_cranehook_webhook_push():
 def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
     app = TestApp(cranehook.app)
 
-    request_json = {"action": "closed", "merged": True}
+    request_json = {"action": "closed", "pull_request": {"merged": True}}
 
     mac = hmac.new(GITHUB_WEBHOOK_SECRET.encode(),
                    msg=json.dumps(request_json).encode(),
