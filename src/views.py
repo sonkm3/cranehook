@@ -40,9 +40,10 @@ def index():
         return 'pong'
 
     payload = json.loads(request.body.getvalue())
-    logger.info(payload["action"])
-    logger.info(payload["pull_request"]["merged"])
     if event == 'pull_request':
+        logger.info(payload["action"])
+        logger.info(payload["pull_request"]["merged"])
+    
         def check_pull_request_merged(payload):
             return payload["action"] == "closed" \
                    and payload["pull_request"]["merged"]
