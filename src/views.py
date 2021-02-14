@@ -15,7 +15,7 @@ cranehook_app = Bottle()
 cranehook_app.catchall = False
 
 logger = logging.getLogger('cranehook')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 
 
 @cranehook_app.route(path='/', method='POST')
