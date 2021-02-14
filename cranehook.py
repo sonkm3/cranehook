@@ -9,4 +9,4 @@ app.catchall = False
 app.merge(cranehook_app)
 
 if __name__ == "__main__":
-    app.run(host='localhost', port=settings.PORT, debug=True)
+    app.run(host=settings.HOST, port=settings.PORT, debug=True)
