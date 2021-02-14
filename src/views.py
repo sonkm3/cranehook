@@ -36,9 +36,9 @@ def index():
         logger.error('signature does not match.')
         raise HTTPError(status=404)
 
-    event = request.get_header('HTTP_X_GITHUB_EVENT')
+    event = request.get_header('X-GitHub-Event')
     if not event:
-        logger.error('HTTP_X_GITHUB_EVENT is not set.')
+        logger.error('X-GitHub-Event is not set.')
         raise HTTPError(status=404)
     elif event == 'ping':
         return 'pong'
