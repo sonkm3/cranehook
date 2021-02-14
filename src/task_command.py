@@ -6,7 +6,7 @@ import settings
 from .discord_handler import DiscordHandler
 
 logger = logging.getLogger('cranehook')
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.INFO)
 discordHandler = DiscordHandler(settings.DISCORD_WEBHOOK_URL, 'cranehook')
 
 formatter = logging.Formatter(

@@ -21,7 +21,7 @@ logger.setLevel(logging.DEBUG)
 @cranehook_app.route(path='/', method='POST')
 def index():
     for key in request.headers.keys():
-        logger.info(f'{key}: {request.get_header(key)}')
+        logger.debug(f'{key}: {request.get_header(key)}')
 
     signature_header = request.get_header('X-Hub-Signature-256')
     if signature_header is None:
@@ -53,5 +53,6 @@ def index():
                    and payload["pull_request"]["merged"]
         if check_pull_request_merged(payload):
             tasks.submit_pull_request_merged_task(payload)
-    logger.error('event not match.')
+    else:
+        logger.error('event not match.')
     return
