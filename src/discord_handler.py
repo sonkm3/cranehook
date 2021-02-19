@@ -1,9 +1,8 @@
 import logging
-
 from concurrent.futures import ThreadPoolExecutor
 from logging import Handler
 
-from discord import Webhook, RequestsWebhookAdapter
+from discord import RequestsWebhookAdapter, Webhook
 
 log_executor = ThreadPoolExecutor(max_workers=5)
 
