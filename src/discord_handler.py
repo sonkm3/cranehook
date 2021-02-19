@@ -17,13 +17,15 @@ class DiscordHandler(Handler):
         return record.__dict__
 
     def emit(self, record):
-        _ = log_executor.submit(_call_webhook, self.format(record),
-                                self.webhook_url, self.username)
+        _ = log_executor.submit(
+            _call_webhook, self.format(record), self.webhook_url, self.username
+        )
 
 
 def _call_webhook(message, webhook_url, username):
-    webhook_id = webhook_url.split('/')[-2]
-    webhook_token = webhook_url.split('/')[-1]
-    webhook = Webhook.partial(webhook_id, webhook_token,
-                              adapter=RequestsWebhookAdapter())
+    webhook_id = webhook_url.split("/")[-2]
+    webhook_token = webhook_url.split("/")[-1]
+    webhook = Webhook.partial(
+        webhook_id, webhook_token, adapter=RequestsWebhookAdapter()
+    )
     webhook.send(message, username=username)
