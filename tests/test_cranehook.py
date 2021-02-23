@@ -103,5 +103,5 @@ def test_cranehook_pull_request_merged_task(emit, subprocess_run):
 def test_discord_handler(emit):
     logger = logging.getLogger("cranehook")
 
-    logger.error('test message')
+    logger.error("test message")
     emit.assert_called()
