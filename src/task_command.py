@@ -14,7 +14,7 @@ def pull_request_merged_task(payload):
 
 def task_command_executer(command_list):
     for cwd, command in command_list:
-        logger.info(" ".join(command))
+        logger.info(f'command: {" ".join(command)}')
         _ = subprocess.run(command, cwd=cwd, capture_output=True)
         logger.info(f"return code: {_.returncode}")
         if _.returncode != 0:

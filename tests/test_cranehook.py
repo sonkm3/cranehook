@@ -1,5 +1,6 @@
 import hmac
 import json
+import logging
 from hashlib import sha256
 from unittest.mock import patch
 
@@ -95,4 +96,12 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
 @patch("src.discord_handler.DiscordHandler.emit")
 def test_cranehook_pull_request_merged_task(emit, subprocess_run):
     submit_pull_request_merged_task(None)
+    emit.assert_called()
+
+
+@patch("src.discord_handler.DiscordHandler.emit")
+def test_discord_handler(emit):
+    logger = logging.getLogger("cranehook")
+
+    logger.error('test message')
     emit.assert_called()
