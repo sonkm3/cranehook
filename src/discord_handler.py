@@ -9,7 +9,6 @@ class DiscordHandler(HTTPHandler):
     def __init__(self, webhook_url, username):
         webhook = urllib.parse.urlparse(webhook_url)
         super().__init__(webhook[1], webhook[2], method="POST", secure=True)
-        self.webhook_url = webhook_url
         self.username = username
 
     def mapLogRecord(self, record):
