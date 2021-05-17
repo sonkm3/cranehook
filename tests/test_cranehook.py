@@ -9,6 +9,7 @@ from webtest.app import AppError
 
 import cranehook
 import settings
+from src.task_command import pull_request_merged_task
 
 
 GITHUB_WEBHOOK_SECRET = settings.GITHUB_WEBHOOK_SECRET
@@ -94,3 +95,15 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
     response = app.post_json("/", request_json, headers=headers)
     assert response.status_code == 200
     assert "pong" not in response
+
+
+@patch("subprocess.run")
+def test_task_command_pullrequest_merged_task(subprocess_run):
+    request_json = {"action": "closed", "pull_request": {"merged": True}}
+
+    pull_request_merged_task(json.dumps(request_json).encode())
+    subprocess_run.assert_called_with(
+        settings.COMMAND_MAP["PULL_REQUEST_MERGED"][0][1],
+        cwd=settings.COMMAND_MAP["PULL_REQUEST_MERGED"][0][0],
+        capture_output=True
+    )
