@@ -5,11 +5,9 @@ import settings
 
 logger = logging.getLogger("cranehook")
 
-command_dict = {"pull_request_merged_task": settings.PULL_REQUEST_MERGED_COMMAND}
-
 
 def pull_request_merged_task(payload):
-    task_command_executer(command_dict["pull_request_merged_task"])
+    task_command_executer(settings.COMMAND_MAP["PULL_REQUEST_MERGED"])
 
 
 def task_command_executer(command_list):
