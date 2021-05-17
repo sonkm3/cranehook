@@ -1,5 +1,6 @@
 import hmac
 import json
+import logging
 from hashlib import sha256
 from unittest.mock import patch
 
@@ -8,13 +9,14 @@ from webtest.app import AppError
 
 import cranehook
 import settings
-from src.tasks import submit_pull_request_merged_task
+
 
 GITHUB_WEBHOOK_SECRET = settings.GITHUB_WEBHOOK_SECRET
 
 
 def test_cranehook_webhook_ping():
     app = TestApp(cranehook.app)
+    logging.disable(logging.CRITICAL)
 
     request_json = dict(id=1, value="value")
 
@@ -34,6 +36,7 @@ def test_cranehook_webhook_ping():
 
 def test_cranehook_webhook_ping_with_false_signature():
     app = TestApp(cranehook.app)
+    logging.disable(logging.CRITICAL)
 
     request_json = dict(id=1, value="value")
 
@@ -54,6 +57,7 @@ def test_cranehook_webhook_ping_with_false_signature():
 
 def test_cranehook_webhook_push():
     app = TestApp(cranehook.app)
+    logging.disable(logging.CRITICAL)
 
     request_json = dict(id=1, value="value")
 
@@ -74,6 +78,7 @@ def test_cranehook_webhook_push():
 @patch("src.tasks.submit_pull_request_merged_task")
 def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
     app = TestApp(cranehook.app)
+    logging.disable(logging.CRITICAL)
 
     request_json = {"action": "closed", "pull_request": {"merged": True}}
 
@@ -89,10 +94,3 @@ def test_cranehook_webhook_pull_request(submit_pull_request_merged_task):
     response = app.post_json("/", request_json, headers=headers)
     assert response.status_code == 200
     assert "pong" not in response
-
-
-@patch("subprocess.run")
-@patch("src.discord_handler.DiscordHandler.emit")
-def test_cranehook_pull_request_merged_task(emit, subprocess_run):
-    submit_pull_request_merged_task(None)
-    emit.assert_called()
