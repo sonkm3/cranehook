@@ -2,8 +2,6 @@ import urllib
 from concurrent.futures import ThreadPoolExecutor
 from logging.handlers import HTTPHandler
 
-log_executor = ThreadPoolExecutor(max_workers=5)
-
 
 class DiscordHandler(HTTPHandler):
     def __init__(self, webhook_url, username):
