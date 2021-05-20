@@ -1,6 +1,6 @@
 ## cranehook
-cranehook is a small webhook API application run specified command when webhook called from github.
-It's designed to use with pelican generated web site and also capable to run other tasks you need.
+cranehook is a small webhook API application run specified command when webhook called from GitHub.
+It's designed to use with pelican generated website and also capable to run other tasks you need.
 
 ## Status
 It's in alpha state. We've just start using this program.
@@ -29,5 +29,5 @@ Webhook is waiting on this url. `http://localhost:8080/` (Port can be changed by
 Just run `nosetests`
 
 ## Background
-Me and friends are making a Podcast since 2021/01. To generate web site, we use pelican and github to generate and manage contents, use self hosted container due to deliver large size audio file. Because we self host containts server, we need some work to make it automaticaly updated. That's why this small program made, and that's why this program called crane hook. (At first Pelican hook came out as a name, but it usage seems much more generic, so we choose crane for name, it's kind a bird as Pelican.)
+I and friends are making a Podcast since 2021/01. To generate website, we use pelican and GitHub to generate and manage contents, use self-hosted container due to deliver large size audio file. Because we self-host static file host server, we need some work to make it automatically updated. That's why this small program made, and that's why this program called crane hook. (At first Pelican hook came out as a name, but its usage seems much more generic, so we choose crane for name, it's kind of a bird as Pelican.)
 
